@@ -37,3 +37,6 @@ vim.keymap.set("n", "N", "Nzzzv")
 --move lines up and down
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+
+-- use system register
+vim.opt.clipboard = 'unnamedplus'
