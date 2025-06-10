@@ -2,6 +2,7 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
          {
             "folke/lazydev.nvim",
             ft = "lua", -- only load on lua files
@@ -16,10 +17,13 @@ return {
         },
         config = function()
             local lspconfig = require("lspconfig")
+            local cmp_nvim_lsp = require("cmp_nvim_lsp")
+            local capabilities = cmp_nvim_lsp.default_capabilities()
 
-            lspconfig.lua_ls.setup({})
+            lspconfig.lua_ls.setup({capabilities = capabilities})
             lspconfig.ts_ls.setup({
-             filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+               filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+               capabilities = capabilities,
             })
 
             lspconfig.ts_ls.setup({
@@ -29,6 +33,7 @@ return {
                 on_attach = function(client)
                  client.server_capabilities.documentFormattingProvider = false -- disable formatting by tsserver, use prettier instead
                 end,
+                capabilities = capabilities,
             })
 
          -- Pyright LSP setup for Python
@@ -37,6 +42,7 @@ return {
                     -- You can customize further here for Pyright, e.g., for formatting or linting
                     client.server_capabilities.documentFormattingProvider = true
                 end,
+                capabilities = capabilities,
             })
 
           -- Setup ESLint
@@ -44,6 +50,7 @@ return {
               on_attach = function(client)
                 client.server_capabilities.documentFormattingProvider = true
               end,
+              capabilities = capabilities,
             })
 
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})

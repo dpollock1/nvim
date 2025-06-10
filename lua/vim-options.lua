@@ -40,3 +40,21 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 
 -- use system register
 vim.opt.clipboard = 'unnamedplus'
+
+-- remove highlight from words on ENTER when searching
+vim.keymap.set("n", '<C-e>', '<cmd>noh<CR>', { noremap = true, silent = true })
+
+-- copilot blink hiding
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BlinkCmpMenuOpen",
+  callback = function()
+    vim.b.copilot_suggestion_hidden = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BlinkCmpMenuClose",
+  callback = function()
+    vim.b.copilot_suggestion_hidden = false
+  end,
+})
